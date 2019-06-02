@@ -5,7 +5,7 @@ class NumberToWord{
     {
         
     }
-    public function counvert($number)
+    public function convert($number)
     {
         $_number = null;
         if(strlen($number) <= 2){
