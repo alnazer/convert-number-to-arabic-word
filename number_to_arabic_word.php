@@ -34,7 +34,7 @@ class NumberToWord{
     private function towLength($number){
         $_number = null;
         if($number <= 20){
-            $_number = $this->lessTanTwenty($number);
+            $_number = $this->forOneToTwnttey($number);
         }else{
             if(substr($number,1,1) > 0){
                 $_number .= $this->digetWithAl(substr($number,1,1)).$this->and; 
