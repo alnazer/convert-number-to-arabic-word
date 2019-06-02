@@ -27,11 +27,8 @@ class NumberToWord{
                 return $this->primaryBigNumber($number);
 
             }elseif(strlen($number) == 3 && $number < 1000){
-                if(substr($number,0,1) > 2){
-                    $_number = $this->moreTahnHundred(substr($number,0,1)).' '.$this->primaryBigNumber(100);
-                }else{
-                    $_number = $this->moreTahnHundred(substr($number,0,1));
-                }
+
+                $_number = $this->moreTahnHundred(substr($number,0,1));
                 
                 if(substr($number,1,3) <= 20){
                     if(substr($number,1,3) != 00){
@@ -52,9 +49,68 @@ class NumberToWord{
                 $last = (int)substr($number,1,strlen($number));
                 if(strlen($number) == 5){
 
+                    $first = (int)substr($number,0,1);
+                    $scound = (int)substr($number,1,1);
+                    if($scound > 0){
+                        $_number.=$this->forOneToTwntteyNew($scound,'').' '.$this->and;
+                    }
+                    
+                    $_number.=$this->betwwenTwentyAndHundred($first,'').' ';
+                   
+                    if((int)substr($number,0,2) <= 10){
+                        $_number.=$this->nameByDiget(4);
+                    }else{
+                        $_number.=$this->primaryBigNumber(1000);
+                    }
+                    if((int)substr($number,2,strlen($number)-2) > 0){
+                        if((int)substr($number,2,1) > 0){
+                            $_number.=$this->and.$this->moreTahnHundred((int)substr($number,2,1)); 
+                        }
+                        if((int)substr($number,3,2) > 0){
+                           
+                            if((int)substr($number,3,2) <= 20){
+                                $_number.=$this->and.$this->forOneToTwntteyNew((int)substr($number,3,2)); 
+                            }else{
+                                if((int)substr($number,4,1) > 0){
+                                    $_number.=$this->and.$this->forOneToTwntteyNew((int)substr($number,4,1)); 
+                                }
+                                
+                                $_number.=$this->and.$this->betwwenTwentyAndHundred((int)substr($number,3,1),'');  
+                            }
+                            
+                        }
+                    }
+
+                }elseif(strlen($number) == 6){
+                    $first = (int) substr($number,0,1);
+                     
+                    if($first < 10){
+                        $_number .=$this->moreTahnHundred($first).' ';
+                    }
+                    
+                    $secound = (int) substr($number,1,2);
+                    if(strlen($secound) == 2 && $secound <= 20){
+                        $_number .=$this->and.$this->forOneToTwntteyNew($secound).$this->primaryBigNumber(1000);
+                    }else{
+                        $_number .=$this->and.$this->forOneToTwnttey((int) substr($number,1,1),'');
+                        $_number .=$this->and.$this->betwwenTwentyAndHundred((int) substr($number,2,1),'');
+                        $_number .=' '.$this->primaryBigNumber(1000);
+
+                        $_number .=$this->and.$this->moreTahnHundred((int) substr($number,3,1),'');
+                        if((int) substr($number,4,2) <= 20){
+                            $_number .=$this->and.$this->forOneToTwntteyNew((int) substr($number,4,2) );
+                        }else{
+                            $_number .=$this->and.$this->forOneToTwnttey((int) substr($number,5,1),'');
+                            $_number .=$this->and.$this->betwwenTwentyAndHundred((int) substr($number,4,1),''); 
+                        }
+                       
+                    }
+                    
+
                 }elseif(strlen($number) == 7){
 
                 }else{
+                    
                     if($first <= 2){
                         $_number.=$this->moreTahnThunsand($first);
                     }else{
@@ -63,7 +119,7 @@ class NumberToWord{
                     if(substr($number,1,1)>0){
                         $_number.=$this->and.$this->moreTahnHundred(substr($number,1,1)).' ';
                     }
-                    $_number.=$this->nameByDiget(3);
+                   // $_number.=$this->nameByDiget(3);
                     if((int)substr($number,2,2) <= 20 && (int)substr($number,2,2) !=0){
                         $_number.= $this->and.$this->forOneToTwnttey((int)substr($number,2,2));
                     }else{
@@ -113,7 +169,7 @@ class NumberToWord{
         }
         return $diget;
     }
-    private function betwwenTwentyAndHundred($diget,$al='الـ')
+    private function betwwenTwentyAndHundred($diget,$al='ال')
     {
         $numbers = [
             2=>$al.'عشرون',
@@ -169,7 +225,7 @@ class NumberToWord{
     {
         $numbers = [
             1=>'مائة',
-            2 =>'مائتين',
+            2 =>'مائتان',
             3 =>'ثلاثمائة',
             4=>'اربعمائة',
             5=>'خمسمائة',
@@ -211,7 +267,7 @@ class NumberToWord{
             5=>'خمسة',
             6=>'ستة',
             7=>'سبعة',
-            8=>'تامنة',
+            8=>'ثمانية',
             9=>'تسعة',
             10=>'عشرة',
             11=>'الحادي عشر',
@@ -230,7 +286,35 @@ class NumberToWord{
         }
         return $diget;
     }
-    
+    private function forOneToTwntteyNew($diget)
+    {
+        $numbers = [
+            1=>'واحد',
+            2=>'اثنان',
+            3=>'ثلاثة',
+            4=>'أربعة',
+            5=>'خمسة',
+            6=>'ستة',
+            7=>'سبعة',
+            8=>'ثمانية',
+            9=>'تسعة',
+            10=>'عشرة',
+            11=>'أحد عشر',
+            12=>'إثنا عشر',
+            13=>'ثلاثة عشر',
+            14=>'أربعة عشر',
+            15=>'خمسة عشر',
+            16=>'ستة عشر',
+            17=>'سبعة عشر',
+            18=>'ثمانية عشر',
+            19=>'تسعة عشر',
+            20=>'عشرون',
+        ];
+        if(array_key_exists($diget,$numbers)){
+            return $numbers[$diget];
+        }
+        return $diget;
+    }
     private function nameByDiget($digetLength)
     {
         $numbers = [
@@ -248,10 +332,12 @@ class NumberToWord{
 }
 
 $numberToWord = new NumberToWord();
-for($i=1;$i<=1500;$i++){
+$number = 922345;
+echo " السنة ".$numberToWord->counvert($number).' - '.$number;
+/*for($i=900000;$i<=900100;$i++){
      
     echo " السنة ".$numberToWord->counvert($i).' - '.$i;
     echo "<br/>";
-}
+}*/
 
 ?>
